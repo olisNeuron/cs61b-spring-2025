@@ -29,7 +29,12 @@ public class GameLogic {
 
         for (int i = r - 1;i >= 0;i--) {
             if (board[i][c] != 0) {
-                targetRow = i + 1;
+                if (board[i][c] != board[r][c]) {
+                    targetRow = i + 1;
+                }
+                else {
+                    targetRow = i;
+                }
             }
         }
 
@@ -40,10 +45,18 @@ public class GameLogic {
             return 0;
         }
 
-        board[targetRow][c] = board[r][c];
-        board[r][c] = 0;
+        if (board[targetRow][c] != board[r][c]) {
+            board[targetRow][c] = board[r][c];
+            board[r][c] = 0;
+            return 0;
+        }
+        else {
+            board[targetRow][c] = 2 * board[r][c];
+            board[r][c] = 0;
+            return 1 + targetRow;
+        }
 
-        return 0;
+
     }
 
     /**
