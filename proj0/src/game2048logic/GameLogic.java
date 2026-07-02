@@ -69,11 +69,9 @@ public class GameLogic {
         // TODO: fill this in in task 5
         for (int i = 3;i >= 0;i--) {
             if (board[i][c] != 0) {
-                if (board[i][c] != board[i-1][c]) {
-                    moveTileUpAsFarAsPossible(board, i-1, c, 0);
-                    moveTileUpAsFarAsPossible(board, i, c, 0);
-                    break;
-                }
+                moveTileUpAsFarAsPossible(board, i-1, c, 0);
+                moveTileUpAsFarAsPossible(board, i, c, 0);
+                break;
             }
         }
         return;
