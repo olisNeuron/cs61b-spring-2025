@@ -20,6 +20,29 @@ public class GameLogic {
      */
     public static int moveTileUpAsFarAsPossible(int[][] board, int r, int c, int minR) {
         // TODO: Fill this in in tasks 2, 3, 4
+        int val = board[r][c];
+        int targetRow = -1;
+
+        if (val == 0) {
+            return 0;
+        }
+
+        for (int i = r - 1;i >= 0;i--) {
+            if (board[i][c] != 0) {
+                targetRow = i + 1;
+            }
+        }
+
+        if (targetRow == -1) {
+            targetRow = 0;
+        }
+        if (targetRow == r) {
+            return 0;
+        }
+
+        board[targetRow][c] = board[r][c];
+        board[r][c] = 0;
+
         return 0;
     }
 
