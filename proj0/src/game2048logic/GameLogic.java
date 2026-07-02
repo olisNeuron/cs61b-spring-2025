@@ -35,6 +35,7 @@ public class GameLogic {
                 else {
                     targetRow = i;
                 }
+                break;
             }
         }
 
@@ -55,8 +56,6 @@ public class GameLogic {
             board[r][c] = 0;
             return 1 + targetRow;
         }
-
-
     }
 
     /**
