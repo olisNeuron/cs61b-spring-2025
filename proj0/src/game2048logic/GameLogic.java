@@ -27,7 +27,7 @@ public class GameLogic {
             return 0;
         }
 
-        for (int i = r - 1;i >= 0;i--) {
+        for (int i = r - 1;i >= minR;i--) {
             if (board[i][c] != 0) {
                 if (board[i][c] != board[r][c]) {
                     targetRow = i + 1;
@@ -40,7 +40,7 @@ public class GameLogic {
         }
 
         if (targetRow == -1) {
-            targetRow = 0;
+            targetRow = minR;
         }
         if (targetRow == r) {
             return 0;
