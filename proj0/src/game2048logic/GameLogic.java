@@ -67,19 +67,35 @@ public class GameLogic {
      */
     public static void tiltColumn(int[][] board, int c) {
         // TODO: fill this in in task 5
-        for (int i = 3;i >= 0;i--) {
+        int idx = 0;
+        int[] temp = new int[4];
+
+        //{2,2,4,0} -> {0,2,2,4}
+        for (int i = 0;i < 4;i++) {
             if (board[i][c] != 0) {
-                if (board[i-1][c] == board[i-2][c]) {
-                    moveTileUpAsFarAsPossible(board, i-1, c, 0);
-                    moveTileUpAsFarAsPossible(board, i, c, 1);
-                    break;
-                }
-                moveTileUpAsFarAsPossible(board, i-1, c, 0);
-                moveTileUpAsFarAsPossible(board, i, c, 0);
-                break;
+                temp[idx++] = board[i][c];
             }
         }
-        return;
+
+        //{0,2,2,4} -> {0,4,0,4}
+        for (int i = 0;i < 3;i++) {
+            if (temp[i] == temp[i+1] && temp[i] != 0) {
+                temp[i] *= 2;
+                temp[i+1] = 0;
+            }
+        }
+
+        //{0,4,0,4} -> {0,0,4,4}
+        idx = 0;
+        for (int i = 0;i < 4;i++) {
+            if (temp[i] != 0) {
+                board[idx++][c] = temp[i];
+            }
+        }
+
+        while (idx < 4) {
+            board[idx++][c] = 0;
+        }
     }
 
     /**
@@ -106,12 +122,24 @@ public class GameLogic {
     public static void tilt(int[][] board, Side side) {
         // TODO: fill this in in task 7
         if (side == Side.EAST) {
+            rotateLeft(board);
+            tiltUp(board);
+            rotateRight(board);
             return;
         } else if (side == Side.WEST) {
+            rotateRight(board);
+            tiltUp(board);
+            rotateLeft(board);
             return;
         } else if (side == Side.SOUTH) {
+            rotateRight(board);
+            rotateRight(board);
+            tiltUp(board);
+            rotateLeft(board);
+            rotateLeft(board);
             return;
         } else {
+            tiltUp(board);
             return;
         }
     }
