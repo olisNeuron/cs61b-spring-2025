@@ -69,6 +69,11 @@ public class GameLogic {
         // TODO: fill this in in task 5
         for (int i = 3;i >= 0;i--) {
             if (board[i][c] != 0) {
+                if (board[i-1][c] == board[i-2][c]) {
+                    moveTileUpAsFarAsPossible(board, i-1, c, 0);
+                    moveTileUpAsFarAsPossible(board, i, c, 1);
+                    break;
+                }
                 moveTileUpAsFarAsPossible(board, i-1, c, 0);
                 moveTileUpAsFarAsPossible(board, i, c, 0);
                 break;
@@ -84,6 +89,10 @@ public class GameLogic {
      */
     public static void tiltUp(int[][] board) {
         // TODO: fill this in in task 6
+        tiltColumn(board, 0);
+        tiltColumn(board, 1);
+        tiltColumn(board, 2);
+        tiltColumn(board, 3);
         return;
     }
 
