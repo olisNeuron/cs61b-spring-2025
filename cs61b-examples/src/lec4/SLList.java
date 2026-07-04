@@ -1,11 +1,11 @@
 package lec4;
 
-public class SLList {
-    private static class IntNode {
-        public int item;
+public class SLList<Mustard> {
+    private class IntNode {
+        public Mustard item;
         public IntNode next;
 
-        public IntNode(int i, IntNode n) {
+        public IntNode(Mustard i, IntNode n) {
             item = i;
             next = n;
         }
@@ -14,23 +14,23 @@ public class SLList {
     private IntNode sentinel;
     private int size;
 
-    public SLList(int x) {
-        sentinel = new IntNode(12345, null);
+    public SLList(Mustard x) {
+        sentinel = new IntNode(null, null);
         sentinel = new IntNode(x, sentinel);
         size = 1;
     }
 
     public SLList() {
-        sentinel = new IntNode(12345, null);
+        sentinel = new IntNode(null, null);
         size = 0;
     }
 
-    public void addFirst(int x) {
+    public void addFirst(Mustard x) {
         size++;
         sentinel.next = new IntNode(x, sentinel.next);
     }
 
-    public void addLast(int x) {
+    public void addLast(Mustard x) {
         size++;
         IntNode p = sentinel;
         while (p.next != null) {
@@ -39,7 +39,7 @@ public class SLList {
         p.next = new IntNode(x, null);
     }
 
-    public int getFirst() {
+    public Mustard getFirst() {
         return sentinel.next.item;
     }
 
