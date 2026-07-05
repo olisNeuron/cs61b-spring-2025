@@ -1,4 +1,4 @@
-package lec7;
+package lec7.speedtest;
 
 public class AList {
     private int size;
@@ -9,11 +9,15 @@ public class AList {
         item = new int[100];
     }
 
+    private void resize(int capacity) {
+        int[] newItem = new int[capacity];
+        System.arraycopy(item, 0, newItem, 0, size);
+        item = newItem;
+    }
+
     public void addLast(int x) {
         if (size == item.length){
-            int[] newItem = new int[size+1];
-            System.arraycopy(item, 0, newItem, 0, size);
-            item = newItem;
+            resize(size + 1);
         }
         item[size] = x;
         size += 1;

@@ -1,7 +1,8 @@
-package lec7;
-import static com.google.common.truth.Truth.assertThat;
+package lec7.speedtest;
 
 import org.junit.jupiter.api.Test;
+
+import static com.google.common.truth.Truth.assertThat;
 
 public class AListTest {
     @Test

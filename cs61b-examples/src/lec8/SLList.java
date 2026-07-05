@@ -1,6 +1,4 @@
-package lec4;
-
-import javax.print.DocFlavor;
+package lec8;
 
 public class SLList<Mustard> {
     private class IntNode {
@@ -45,6 +43,15 @@ public class SLList<Mustard> {
         return sentinel.next.item;
     }
 
+    public Mustard getLast(int i) {
+        IntNode p = sentinel.next;
+        while (p != null) {
+            p = p.next;
+        }
+        return p.item;
+    }
+
+
     private int size(IntNode p) {
         if (p.next == null) {
             return 1;
@@ -64,15 +71,4 @@ public class SLList<Mustard> {
         return size;
     }
 
-    public String longest(SLList<String> L) {
-        int maxDex = 0;
-        for (int i = 0;i < L.size();i+=1) {
-            String thisString = L.get(i);
-            String longestString = L.get(maxDex);
-            if (thisString.length() > longestString.length()) {
-                maxDex = i;
-            }
-        }
-        return L.get(maxDex);
-    }
 }
