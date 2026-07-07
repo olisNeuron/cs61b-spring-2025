@@ -1,4 +1,6 @@
 import jh61b.utils.Reflection;
+import net.sf.saxon.functions.ConstantFunction;
+import org.antlr.v4.runtime.atn.BasicBlockStartState;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -57,4 +59,64 @@ public class LinkedListDeque61BTest {
      }
 
     // Below, you'll write your own tests for LinkedListDeque61B.
+
+    @Test
+    public void testSizeAndIsEmpty() {
+         // check if it's empty
+        Deque61B<Integer> lld1 = new LinkedListDeque61B<>();
+        assertThat(lld1.isEmpty()).isTrue();
+
+        //check size function
+        Deque61B<Integer> lld2 = new LinkedListDeque61B<>();
+        lld2.addFirst(1);
+        lld2.addFirst(1);
+        lld2.addFirst(1);
+
+        assertThat(lld2.size()).isEqualTo(3);
+        assertThat(lld2.isEmpty()).isFalse();
+    }
+
+    @Test
+    public void testGet() {
+         //check get function
+        Deque61B<Integer> lld1 = new LinkedListDeque61B<>();
+        lld1.addLast(0);
+        lld1.addLast(1);
+        lld1.addLast(2);
+        lld1.addLast(3);
+
+        for (int i = 0; i < lld1.size(); i+=1) {
+            assertThat(lld1.get(i)).isEqualTo(i);
+        }
+
+        assertThat(lld1.get(27888)).isNull();
+    }
+
+    @Test
+    public void testGetRecursive() {
+        //check getRecursive function
+        Deque61B<Integer> lld1 = new LinkedListDeque61B<>();
+        lld1.addLast(0);
+        lld1.addLast(1);
+        lld1.addLast(2);
+        lld1.addLast(3);
+
+        for (int i = 0; i < lld1.size(); i+=1) {
+            assertThat(lld1.getRecursive(i)).isEqualTo(i);
+        }
+
+        assertThat(lld1.getRecursive(27888)).isNull();
+    }
+
+    @Test
+    public void testRemoveFirstAndRemoveLast() {
+        Deque61B<Integer> lld1 = new LinkedListDeque61B<>();
+        lld1.addLast(0);
+        lld1.addLast(1);
+        lld1.addLast(2);
+        lld1.addLast(3);
+
+        assertThat(lld1.removeLast()).isEqualTo(3);
+        assertThat(lld1.removeFirst()).isEqualTo(0);
+    }
 }

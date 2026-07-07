@@ -74,7 +74,7 @@ public class LinkedListDeque61B<T> implements Deque61B<T>{
 
     @Override
     public T removeFirst() {
-        return null;
+
     }
 
     @Override
@@ -84,11 +84,32 @@ public class LinkedListDeque61B<T> implements Deque61B<T>{
 
     @Override
     public T get(int index) {
-        return null;
+        Node p = firstSenti.next;
+        for (int i = 0; i < index; i+=1) {
+            if (p.next != null) {
+                p = p.next;
+            }
+            else {
+                return null;
+            }
+        }
+        return p.item;
+    }
+
+    private T getRecursiveHelper(int index, Node p) {
+        if (index == 0) {
+            return p.item;
+        }
+        if (p.next == lastSenti) {
+            return null;
+        }
+        else {
+            return getRecursiveHelper(index - 1, p.next);
+        }
     }
 
     @Override
     public T getRecursive(int index) {
-        return null;
+        return getRecursiveHelper(index, firstSenti.next);
     }
 }
