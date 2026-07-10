@@ -74,12 +74,26 @@ public class LinkedListDeque61B<T> implements Deque61B<T>{
 
     @Override
     public T removeFirst() {
-
+        Node removeNode  = firstSenti.next;
+        if (removeNode == lastSenti) {
+            return null;
+        }
+        firstSenti.next = removeNode.next;
+        removeNode.next.prev = firstSenti;
+        size-=1;
+        return removeNode.item;
     }
 
     @Override
     public T removeLast() {
-        return null;
+        Node removeNode = lastSenti.prev;
+        if (removeNode == firstSenti) {
+            return null;
+        }
+        lastSenti.prev = removeNode.prev;
+        removeNode.prev.next = lastSenti;
+        size-=1;
+        return removeNode.item;
     }
 
     @Override
