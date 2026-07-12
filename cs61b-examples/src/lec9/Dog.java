@@ -1,5 +1,7 @@
 package lec9;
 
+import java.util.Comparator;
+
 public class Dog implements Comparable<Dog> {
     String name;
     int size;
@@ -11,11 +13,14 @@ public class Dog implements Comparable<Dog> {
 
     @Override
     public int compareTo(Dog uddaDog) {
-        if (size < uddaDog.size) {
-            return -1;
-        } else if (size > uddaDog.size) {
-            return 1;
+        return size - uddaDog.size;
+    }
+
+    public static class nameComparator implements Comparator<Dog> {
+
+        @Override
+        public int compare(Dog a, Dog b) {
+            return a.name.compareTo(b.name);
         }
-        return 0;
     }
 }
