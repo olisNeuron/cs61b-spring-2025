@@ -11,11 +11,11 @@ import java.util.List;
 public class collectionDogDemo {
     public static void main(String[] args) {
         List<Dog> dogs = new ArrayList<>();
-        Comparator<Dog> nc = new Dog.nameComparator();
+
         dogs.add(new Dog("grigometh", 200));
         dogs.add(new Dog("pelusa", 5));
         dogs.add(new Dog("clifford", 9000));
 
-        Dog maxDog = Collections.max(dogs, nc);
+        Dog maxDog = Collections.max(dogs, Dog.NAME_COMPARATOR);
     }
 }

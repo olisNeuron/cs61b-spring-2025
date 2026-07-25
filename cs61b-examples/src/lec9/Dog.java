@@ -16,11 +16,13 @@ public class Dog implements Comparable<Dog> {
         return size - uddaDog.size;
     }
 
-    public static class nameComparator implements Comparator<Dog> {
+    private static class nameComparator implements Comparator<Dog> {
 
         @Override
         public int compare(Dog a, Dog b) {
             return a.name.compareTo(b.name);
         }
     }
+
+    public static Comparator<Dog> NAME_COMPARATOR = new nameComparator();
 }
