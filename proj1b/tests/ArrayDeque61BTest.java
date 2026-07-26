@@ -1,5 +1,6 @@
 import deque.ArrayDeque61B;
 
+import deque.Deque61B;
 import jh61b.utils.Reflection;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -22,4 +23,14 @@ public class ArrayDeque61BTest {
 //         assertWithMessage("Found fields that are not array or primitives").that(badFields).isEmpty();
 //     }
 
+    @Test
+    public void add_first_from_empty() {
+        Deque61B<String> ad1 = new ArrayDeque61B<>();
+
+    }
+
+    @Test
+    public void test() {
+
+    }
 }

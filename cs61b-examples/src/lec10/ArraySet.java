@@ -61,6 +61,33 @@ public class ArraySet<T> implements Iterable<T> {
         return new ArraySetIterator();
     }
 
+    @Override
+    public String toString() {
+        StringBuilder stringReturn = new StringBuilder("{");
+        for (T x : this) {
+            stringReturn.append(x);
+            stringReturn.append(",");
+        }
+        stringReturn.append("}");
+        return stringReturn.toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o instanceof ArraySet uddaSet) {
+            if (uddaSet.size() != this.size()) {
+                return false;
+            }
+            for (T x : this) {
+                if (!uddaSet.contain(x)) {
+                    return false;
+                }
+            }
+            return true;
+        }
+        return false;
+    }
+
     public int size() {
         return size;
     }
@@ -77,5 +104,7 @@ public class ArraySet<T> implements Iterable<T> {
             int i = aseer.next();
             System.out.println(i);
         }
+
+        System.out.print(aset);
     }
 }
