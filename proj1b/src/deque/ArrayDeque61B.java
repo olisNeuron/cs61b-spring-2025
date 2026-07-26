@@ -1,6 +1,7 @@
 package deque;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.lang.Math;
 
@@ -26,7 +27,12 @@ public class ArrayDeque61B<T> implements Deque61B<T> {
 
     public void resize(int capacity) {
         T[] a = (T[]) new Object[capacity];
-
+        for (int i = 0; i < size; i+=1) {
+            a[i] = get(i);
+        }
+        items = a;
+        nextFirst = capacity - 1;
+        nextLast = size;
     }
 
     @Override
@@ -71,7 +77,7 @@ public class ArrayDeque61B<T> implements Deque61B<T> {
 
     @Override
     public int size() {
-        return 0;
+        return size;
     }
 
     @Override

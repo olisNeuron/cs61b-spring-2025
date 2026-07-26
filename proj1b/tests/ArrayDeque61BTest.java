@@ -87,6 +87,7 @@ public class ArrayDeque61BTest {
         assertThat(ad1.size()).isEqualTo(ad1.toList().size());
     }
 
+    @Test
     public void add_last_trigger_resize() {
         Deque61B<Integer> ad1 = new ArrayDeque61B<>();
 
