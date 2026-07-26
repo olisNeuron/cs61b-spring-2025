@@ -16,8 +16,17 @@ public class ArrayDeque61B<T> implements Deque61B<T> {
         items = (T[]) new Object[100];
     }
 
+    public ArrayDeque61B(T x) {
+        size = 0;
+        items = (T[]) new Object[100];
+        items[nextFirst] = x;
+        nextFirst -= 1;
+        size += 1;
+    }
+
     public void resize(int capacity) {
         T[] a = (T[]) new Object[capacity];
+
     }
 
     @Override
@@ -50,7 +59,7 @@ public class ArrayDeque61B<T> implements Deque61B<T> {
     public List<T> toList() {
         List<T> returnList = new ArrayList<>();
         for (int i = 0; i < size; i += 1) {
-            returnList.add(items[i]);
+            returnList.add(items[Math.floorMod(nextFirst+1+i, items.length)]);
         }
         return returnList;
     }
@@ -77,7 +86,7 @@ public class ArrayDeque61B<T> implements Deque61B<T> {
 
     @Override
     public T get(int index) {
-        return items[index];
+        return items[Math.floorMod(nextFirst+1+index, items.length)];
     }
 
     @Override
