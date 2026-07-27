@@ -1,3 +1,4 @@
+import com.google.common.truth.Truth;
 import deque.ArrayDeque61B;
 
 import deque.Deque61B;
@@ -84,7 +85,7 @@ public class ArrayDeque61BTest {
             ad1.addFirst(i);
         }
 
-        assertThat(ad1.size()).isEqualTo(ad1.toList().size());
+        assertThat(ad1.get(0)).isEqualTo(199);
     }
 
     @Test
@@ -95,6 +96,56 @@ public class ArrayDeque61BTest {
             ad1.addLast(i);
         }
 
-        assertThat(ad1.size()).isEqualTo(ad1.toList().size());
+        assertThat(ad1.get(199)).isEqualTo(199);
+    }
+
+    @Test
+    public void testRemoveFirstAndRemoveLast() {
+        Deque61B<Integer> ad1 = new ArrayDeque61B<>();
+        ad1.addLast(0);
+        ad1.addLast(1);
+        ad1.addLast(2);
+        ad1.addLast(3);
+        Deque61B<Integer> ad2 = new ArrayDeque61B<>();
+
+        assertThat(ad1.removeFirst()).isEqualTo(0);
+        assertThat(ad1.toList()).containsExactly(1, 2, 3).inOrder();
+        assertThat(ad1.size()).isEqualTo(3);
+
+        assertThat(ad1.removeLast()).isEqualTo(3);
+        assertThat(ad1.toList()).containsExactly(1, 2).inOrder();
+        assertThat(ad1.size()).isEqualTo(2);
+
+        ad2.removeFirst();
+        assertThat(ad2.size()).isEqualTo(0);
+        ad2.removeLast();
+        assertThat(ad2.size()).isEqualTo(0);
+    }
+
+    @Test
+    public void testSizeAndIsEmpty() {
+        Deque61B<Integer> lld1 = new ArrayDeque61B<>();
+        Truth.assertThat(lld1.isEmpty()).isTrue();
+        Deque61B<Integer> lld2 = new ArrayDeque61B<>();
+        lld2.addFirst(1);
+        lld2.addFirst(1);
+        lld2.addFirst(1);
+        Truth.assertThat(lld2.size()).isEqualTo(3);
+        Truth.assertThat(lld2.isEmpty()).isFalse();
+    }
+
+    @Test
+    public void testGet() {
+        Deque61B<Integer> lld1 = new ArrayDeque61B<>();
+        lld1.addLast(0);
+        lld1.addLast(1);
+        lld1.addLast(2);
+        lld1.addLast(3);
+
+        for(int i = 0; i < lld1.size(); ++i) {
+            Truth.assertThat((Integer)lld1.get(i)).isEqualTo(i);
+        }
+
+        Truth.assertThat((Integer)lld1.get(27888)).isNull();
     }
 }

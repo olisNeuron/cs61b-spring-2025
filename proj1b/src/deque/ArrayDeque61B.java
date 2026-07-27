@@ -72,7 +72,7 @@ public class ArrayDeque61B<T> implements Deque61B<T> {
 
     @Override
     public boolean isEmpty() {
-        return false;
+        return size == 0;
     }
 
     @Override
@@ -82,12 +82,38 @@ public class ArrayDeque61B<T> implements Deque61B<T> {
 
     @Override
     public T removeFirst() {
-        return null;
+        if (isEmpty()) {
+            return null;
+        }
+        size -= 1;
+        if (nextFirst == items.length-1) {
+            T returnItem = items[0];
+            items[0] = null;
+            nextFirst = 0;
+            return returnItem;
+        }
+        T returnItem = items[nextFirst+1];
+        items[nextFirst+1] = null;
+        nextFirst += 1;
+        return returnItem;
     }
 
     @Override
     public T removeLast() {
-        return null;
+        if (isEmpty()) {
+            return null;
+        }
+        size -= 1;
+        if (nextLast == 0) {
+            T returnItem = items[items.length-1];
+            items[items.length-1] = null;
+            nextLast = items.length - 1;
+            return returnItem;
+        }
+        T returnItem = items[nextLast-1];
+        items[nextLast-1] = null;
+        nextLast -= 1;
+        return returnItem;
     }
 
     @Override
@@ -97,6 +123,6 @@ public class ArrayDeque61B<T> implements Deque61B<T> {
 
     @Override
     public T getRecursive(int index) {
-        return null;
+        throw new UnsupportedOperationException("No need to implement getRecursive for proj 1b");
     }
 }
