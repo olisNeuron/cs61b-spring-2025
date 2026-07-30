@@ -1,11 +1,11 @@
 package deque;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 import java.lang.Math;
 
-public class ArrayDeque61B<T> implements Deque61B<T> {
+public class ArrayDeque61B<T> implements Deque61B<T>  {
 
     private int size;
     public T[] items;
@@ -124,5 +124,71 @@ public class ArrayDeque61B<T> implements Deque61B<T> {
     @Override
     public T getRecursive(int index) {
         throw new UnsupportedOperationException("No need to implement getRecursive for proj 1b");
+    }
+
+    private class ArrayDequeIterator implements Iterator<T> {
+        private int wizPos;
+        private int count;
+
+        ArrayDequeIterator() {
+            wizPos = nextFirst + 1;
+            count = 0;
+        }
+        @Override
+        public boolean hasNext() {
+            return count < size;
+        }
+
+        @Override
+        public T next() {
+            if (!hasNext()) {
+                throw new java.util.NoSuchElementException();
+            }
+            T itemToReturn = items[Math.floorMod(wizPos, items.length)];
+            count += 1;
+            wizPos += 1;
+            return itemToReturn;
+        }
+    }
+
+    @Override
+    public Iterator<T> iterator() {
+        return new ArrayDequeIterator();
+    }
+
+    public boolean contain(T item) {
+        for (int i = 0; i < size; i++) {
+            if (items[Math.floorMod(nextFirst+1+i, items.length)].equals(item)) {    //items[i] == item is not correct, == compares addresses of two space
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o instanceof ArrayDeque61B uddaSet) {
+            if (uddaSet.size() != this.size()) {
+                return false;
+            }
+            for (T x : this) {
+                if (!uddaSet.contain(x)) {
+                    return false;
+                }
+            }
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder stringReturn = new StringBuilder("{");
+        for (T x : this) {
+            stringReturn.append(x);
+            stringReturn.append(",");
+        }
+        stringReturn.append("}");
+        return stringReturn.toString();
     }
 }

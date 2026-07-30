@@ -2,6 +2,7 @@ import com.google.common.truth.Truth;
 import deque.ArrayDeque61B;
 
 import deque.Deque61B;
+import deque.LinkedListDeque61B;
 import jh61b.utils.Reflection;
 import org.apache.hc.core5.annotation.Internal;
 import org.junit.jupiter.api.DisplayName;
@@ -142,10 +143,72 @@ public class ArrayDeque61BTest {
         lld1.addLast(2);
         lld1.addLast(3);
 
-        for(int i = 0; i < lld1.size(); ++i) {
-            Truth.assertThat((Integer)lld1.get(i)).isEqualTo(i);
+        for (int i = 0; i < lld1.size(); ++i) {
+            Truth.assertThat((Integer) lld1.get(i)).isEqualTo(i);
         }
 
-        Truth.assertThat((Integer)lld1.get(27888)).isNull();
+        Truth.assertThat((Integer) lld1.get(27888)).isNull();
+    }
+
+    @Test
+    public void addLastTestBasicWithoutToList() {
+        Deque61B<String> lld1 = new LinkedListDeque61B<>();
+
+        lld1.addLast("front"); // after this call we expect: ["front"]
+        lld1.addLast("middle"); // after this call we expect: ["front", "middle"]
+        lld1.addLast("back"); // after this call we expect: ["front", "middle", "back"]
+        assertThat(lld1).containsExactly("front", "middle", "back");
+
+        Deque61B<String> lld2 = new ArrayDeque61B<>();
+
+        lld2.addLast("front"); // after this call we expect: ["front"]
+        lld2.addLast("middle"); // after this call we expect: ["front", "middle"]
+        lld2.addLast("back"); // after this call we expect: ["front", "middle", "back"]
+        assertThat(lld2).containsExactly("front", "middle", "back");
+    }
+
+    @Test
+    public void testEqualDeque61B() {
+        Deque61B<String> lld1 = new ArrayDeque61B<>();
+        Deque61B<String> lld2 = new ArrayDeque61B<>();
+
+        lld1.addLast("front");
+        lld1.addLast("middle");
+        lld1.addLast("back");
+
+        lld2.addLast("front");
+        lld2.addLast("middle");
+        lld2.addLast("back");
+
+        assertThat(lld1.equals(lld2)).isEqualTo(true);
+
+        Deque61B<String> lld3 = new LinkedListDeque61B<>();
+        Deque61B<String> lld4 = new LinkedListDeque61B<>();
+
+        lld3.addLast("front");
+        lld3.addLast("middle");
+        lld3.addLast("back");
+
+        lld4.addLast("front");
+        lld4.addLast("middle");
+        lld4.addLast("back");
+
+        assertThat(lld3.equals(lld4)).isEqualTo(true);
+    }
+
+    @Test
+    public void testToStringDeque61B() {
+        Deque61B<String> lld1 = new LinkedListDeque61B<>();
+        Deque61B<String> lld2 = new ArrayDeque61B<>();
+
+        lld1.addLast("front");
+        lld1.addLast("middle");
+        lld1.addLast("back");
+
+        lld2.addLast("front");
+        lld2.addLast("middle");
+        lld2.addLast("back");
+
+        assertThat(lld1.toString()).isEqualTo("{front,middle,back,}");
     }
 }
