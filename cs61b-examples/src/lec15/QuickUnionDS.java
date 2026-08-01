@@ -23,10 +23,11 @@ public class QuickUnionDS implements Disjointsets{
         int i = find(q);
         int j = find(p);
 
+        parent[i] = j;
     }
 
     @Override
     public boolean isConnected(int q, int p) {
-        return false;
+        return find(q) == find(p);
     }
 }
