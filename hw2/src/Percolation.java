@@ -3,13 +3,25 @@ import org.apache.bcel.generic.ATHROW;
 
 public class Percolation {
     // TODO: Add any necessary instance variables.
-    public boolean[][] siteArray;
-    public WeightedQuickUnionUF uf;
+    private boolean[][] siteArray;
+    private WeightedQuickUnionUF uf;
+    private WeightedQuickUnionUF ufFull;
+    public int topSite;
+    public int bottomSite;
 
     public Percolation(int N) {
         // TODO: Fill in this constructor.
         siteArray = new boolean[N][N];
-        uf = new WeightedQuickUnionUF(N * N);
+        uf = new WeightedQuickUnionUF(N * N + 2);
+        ufFull = new WeightedQuickUnionUF(N * N + 1);
+        topSite = N*N;
+        bottomSite = N*N+1;
+
+        for (int i = 0; i < N; i += 1) {
+            uf.union(transform(0, i), topSite);
+            uf.union(transform(N-1, i), bottomSite);
+            ufFull.union(transform(0, i), topSite);
+        }
     }
 
     public int transform(int row, int col) {
@@ -24,6 +36,10 @@ public class Percolation {
 
             if (isOpen(r, c)) {
                 uf.union(
+                        transform(row, col),
+                        transform(r, c)
+                );
+                ufFull.union(
                         transform(row, col),
                         transform(r, c)
                 );
@@ -50,28 +66,28 @@ public class Percolation {
         if (!isOpen(row, col)) {
             return false;
         }
-        for (int i = 0; i < siteArray.length; i++) {
-            if (uf.connected(transform(0, i), transform(row, col))) {
-                return true;
-            }
+        if (ufFull.connected(transform(row,col),topSite)){
+            return true;
         }
         return false;
     }
 
     public int numberOfOpenSites() {
-//        // TODO: Fill in this method.
-//        int totalNum = 0;
-//        for (boolean[] sa : siteArray) {
-//            for (boolean saInside : sa) {
-//                totalNum += 1;
-//            }
-//        }
-        return 0;
+        // TODO: Fill in this method.
+        int totalNum = 0;
+        for (boolean[] sa : siteArray) {
+            for (boolean saInside : sa) {
+                if (saInside) {
+                    totalNum += 1;
+                }
+            }
+        }
+        return totalNum;
     }
 
     public boolean percolates() {
         // TODO: Fill in this method.
-        return false;
+        return uf.connected(topSite, bottomSite);
     }
 
     // TODO: Add any useful helper methods (we highly recommend this!).
