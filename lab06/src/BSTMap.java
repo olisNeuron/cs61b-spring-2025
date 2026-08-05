@@ -1,22 +1,41 @@
-import org.checkerframework.checker.units.qual.K;
-
 import java.util.Iterator;
 import java.util.Set;
 
-public class BSTMap implements Map61B{
+public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V>{
+
+    public class BST {
+        public K key;
+        public V value;
+        public BST left;
+        public BST right;
+
+        public BST(K k, V v) {
+            key = k;
+            value = v;
+        }
+    }
+
+    private BST root;
+
+    private BST put(K key, V value, BST root) {
+        if (root == null) {
+            return new BST(key, value);
+        }
+        else (value > )
+    }
 
     @Override
-    public void put(Object key, Object value) {
+    public void put(K key, V value) {
 
     }
 
     @Override
-    public Object get(Object key) {
+    public V get(K key) {
         return null;
     }
 
     @Override
-    public boolean containsKey(Object key) {
+    public boolean containsKey(K key) {
         return false;
     }
 
@@ -31,17 +50,17 @@ public class BSTMap implements Map61B{
     }
 
     @Override
-    public Set keySet() {
+    public Set<K> keySet() {
         return Set.of();
     }
 
     @Override
-    public Object remove(Object key) {
+    public V remove(K key) {
         return null;
     }
 
     @Override
-    public Iterator iterator() {
+    public Iterator<K> iterator() {
         return null;
     }
 }
