@@ -3,30 +3,36 @@ import java.util.Set;
 
 public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V>{
 
-    public class BST {
+    public class Node {
         public K key;
         public V value;
-        public BST left;
-        public BST right;
+        public Node left;
+        public Node right;
 
-        public BST(K k, V v) {
+        public Node(K k, V v) {
             key = k;
             value = v;
         }
     }
 
-    private BST root;
+    private Node root;
 
-    private BST put(K key, V value, BST root) {
-        if (root == null) {
-            return new BST(key, value);
+    private Node put(K key, V value, Node T) {
+        if (T == null) {
+            return new Node(key, value);
         }
-        else (value > )
+        if (key.compareTo(T.key) > 0) {
+            T.right = put(key, value, T.right);
+        }
+        else if (key.compareTo(T.key) < 0) {
+            T.left = put(key, value, T.left);
+        }
+        return T;
     }
 
     @Override
     public void put(K key, V value) {
-
+        root = put(key, value, root);
     }
 
     @Override
