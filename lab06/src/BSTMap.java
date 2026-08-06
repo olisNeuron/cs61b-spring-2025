@@ -15,26 +15,38 @@ public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V>{
         }
     }
 
-    private int size;
+    public int size;
     private Node root;
+
+//    public BSTMap() {
+//        size = 0;
+//        root = null;
+//    }
 
     private Node put(K key, V value, Node T) {
         if (T == null) {
             return new Node(key, value);
         }
-        if (key.compareTo(T.key) > 0) {
+        int cmp = key.compareTo(T.key);
+        if (cmp > 0) {
             T.right = put(key, value, T.right);
         }
-        else if (key.compareTo(T.key) < 0) {
+        else if (cmp < 0) {
             T.left = put(key, value, T.left);
+        }
+        else {
+            T.value = value;
         }
         return T;
     }
 
     @Override
     public void put(K key, V value) {
+        boolean isNew = !containsKey(key);
         root = put(key, value, root);
-        size += 1;
+        if (isNew) {
+            size += 1;
+        }
     }
 
     private V get(K key, Node T) {
@@ -80,7 +92,8 @@ public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V>{
 
     @Override
     public void clear() {
-
+        root = null;
+        size = 0;
     }
 
     @Override
@@ -88,8 +101,40 @@ public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V>{
         return Set.of();
     }
 
+    private Node findMin(Node T) {
+        if (T.)
+    }
+
+     private Node remove(K key, Node T) {
+        int cmp = key.compareTo(T.key);
+        if (cmp > 0) {
+            return remove(key, T.right);
+        }
+        else if (cmp < 0) {
+            return remove(key, T.left);
+        }
+        else {
+            if (T.left == null) {
+                return T.right;
+            } else if (T.right == null) {
+                return T.left;
+            } else {
+                Node min = T.right.left;
+                T.key = min.key;
+                T.value = min.value;
+                T.right = remove(min.key,T.right);
+                return T;
+            }
+        }
+    }
+
     @Override
     public V remove(K key) {
+        Node removeNode = remove(key, root);
+        boolean doesExist = containsKey(key);
+        if (doesExist) {
+            return removeNode.value;
+        }
         return null;
     }
 
