@@ -53,6 +53,7 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
         for (int i = 0; i < initialCapacity; i+=1) {
             buckets[i] = createBucket();
         }
+        this.loadFactor = loadFactor;
         size = 0;
     }
 
@@ -63,7 +64,7 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
      *  1. Insert items (`add` method)
      *  2. Remove items (`remove` method)
      *  3. Iterate through items (`iterator` method)
-     *  Note that that this is referring to the hash table bucket itself,
+     *  Note that this is referring to the hash table bucket itself,
      *  not the hash map itself.
      *
      * Each of these methods is supported by java.util.Collection,
@@ -81,8 +82,8 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
         return new LinkedList<>();
     }
 
-    public int hashCode(int num) {
-        return Math.floorMod(Math.abs(num), buckets.length);
+    private int hashIndex(K key) {
+        return Math.floorMod(key.hashCode(), buckets.length);
     }
 
     // TODO: Implement the methods of the Map61B Interface below
@@ -90,7 +91,39 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
 
     @Override
     public void put(K key, V value) {
+        int keyHashIndex = hashIndex(key);
+        for (Node x : buckets[keyHashIndex]) {
+            if (x.key.equals(key)) {
+                x.value = value;
+                return;
+            }
+        }
+        buckets[keyHashIndex].add(new Node(key, value));
+        size += 1;
 
+        double factor = (double) size / buckets.length;
+        if (factor > loadFactor) {
+            // traversal and store all node from original list
+            LinkedList<Node> nodeList = new LinkedList<>();
+            LinkedList<Integer> hashIndexList = new LinkedList<>();
+            for (int j = 0; j < buckets.length; j+=1) {
+                for (Node x : buckets[j]){
+                    nodeList.add(x);
+                }
+            }
+
+            // create new resizing list and reput node
+            buckets = new Collection[buckets.length*2];
+            for (Node x : nodeList) {
+                hashIndexList.add(hashIndex(x.key));
+            }
+            for (int i = 0; i < buckets.length; i+=1) {
+                buckets[i] = createBucket();
+            }
+            for (int i = 0; i < hashIndexList.size();i+=1) {
+                buckets[hashIndexList.get(i)].add(nodeList.get(i));
+            }
+        }
     }
 
     @Override
