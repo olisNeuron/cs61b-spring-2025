@@ -89,6 +89,29 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
     // TODO: Implement the methods of the Map61B Interface below
     // Your code won't compile until you do so!
 
+    private void resize() {
+        // traversal and store all node from original list
+        LinkedList<Node> nodeList = new LinkedList<>();
+        LinkedList<Integer> hashIndexList = new LinkedList<>();
+        for (int i = 0; i < buckets.length; i+=1) {
+            for (Node x : buckets[i]){
+                nodeList.add(x);
+            }
+        }
+
+        // create new resizing list and reput node
+        buckets = new Collection[buckets.length*2];
+        for (Node x : nodeList) {
+            hashIndexList.add(hashIndex(x.key));
+        }
+        for (int i = 0; i < buckets.length; i+=1) {
+            buckets[i] = createBucket();
+        }
+        for (int i = 0; i < hashIndexList.size();i+=1) {
+            buckets[hashIndexList.get(i)].add(nodeList.get(i));
+        }
+    }
+
     @Override
     public void put(K key, V value) {
         int keyHashIndex = hashIndex(key);
@@ -103,26 +126,7 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
 
         double factor = (double) size / buckets.length;
         if (factor > loadFactor) {
-            // traversal and store all node from original list
-            LinkedList<Node> nodeList = new LinkedList<>();
-            LinkedList<Integer> hashIndexList = new LinkedList<>();
-            for (int j = 0; j < buckets.length; j+=1) {
-                for (Node x : buckets[j]){
-                    nodeList.add(x);
-                }
-            }
-
-            // create new resizing list and reput node
-            buckets = new Collection[buckets.length*2];
-            for (Node x : nodeList) {
-                hashIndexList.add(hashIndex(x.key));
-            }
-            for (int i = 0; i < buckets.length; i+=1) {
-                buckets[i] = createBucket();
-            }
-            for (int i = 0; i < hashIndexList.size();i+=1) {
-                buckets[hashIndexList.get(i)].add(nodeList.get(i));
-            }
+            resize();
         }
     }
 
@@ -139,10 +143,13 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
 
     @Override
     public boolean containsKey(K key) {
-        if (get(key) == null) {
-            return false;
+        int keyHashIndex = hashIndex(key);
+        for (Node x : buckets[keyHashIndex]) {
+            if (x.key.equals(key)) {
+                return true;
+            }
         }
-        return true;
+        return false;
     }
 
     @Override
@@ -152,12 +159,21 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
 
     @Override
     public void clear() {
-        for
+        for (int i = 0; i < buckets.length; i += 1) {
+            buckets[i] = createBucket();
+        }
+        size = 0;
     }
 
     @Override
     public Set<K> keySet() {
-        return Set.of();
+        HashSet<K> keySet = new HashSet<>();
+        for (int i = 0; i < buckets.length; i += 1) {
+            for (Node x : buckets[i]) {
+                keySet.add(x.key);
+            }
+        }
+        return keySet;
     }
 
     @Override
