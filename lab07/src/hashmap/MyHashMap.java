@@ -128,22 +128,31 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
 
     @Override
     public V get(K key) {
+        int keyHashIndex = hashIndex(key);
+        for (Node x : buckets[keyHashIndex]) {
+            if (x.key.equals(key)) {
+                return x.value;
+            }
+        }
         return null;
     }
 
     @Override
     public boolean containsKey(K key) {
-        return false;
+        if (get(key) == null) {
+            return false;
+        }
+        return true;
     }
 
     @Override
     public int size() {
-        return 0;
+        return size;
     }
 
     @Override
     public void clear() {
-
+        for
     }
 
     @Override
