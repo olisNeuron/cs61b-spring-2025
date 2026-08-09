@@ -91,8 +91,8 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
 
     private void resize() {
         // traversal and store all node from original list
-        LinkedList<Node> nodeList = new LinkedList<>();
-        LinkedList<Integer> hashIndexList = new LinkedList<>();
+        ArrayList<Node> nodeList = new ArrayList<>();
+        ArrayList<Integer> hashIndexList = new ArrayList<>();
         for (int i = 0; i < buckets.length; i+=1) {
             for (Node x : buckets[i]){
                 nodeList.add(x);
@@ -178,6 +178,15 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
 
     @Override
     public V remove(K key) {
+        int keyHashIndex = hashIndex(key);
+        Node removeNode = null;
+        for (Node x : buckets[keyHashIndex]) {
+            if (x.key.equals(key)) {
+                removeNode = x;
+                buckets[keyHashIndex].remove(x);
+                return removeNode.value;
+            }
+        }
         return null;
     }
 
