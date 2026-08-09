@@ -98,48 +98,53 @@ public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V>{
 
     @Override
     public Set<K> keySet() {
-        return Set.of();
+        throw new UnsupportedOperationException();
+//        return Set.of();
     }
 
     private Node findMin(Node T) {
-        if (T.)
+        if (T.left != null) {
+            return findMin(T.left);
+        }
+        return T;
     }
 
      private Node remove(K key, Node T) {
         int cmp = key.compareTo(T.key);
         if (cmp > 0) {
-            return remove(key, T.right);
+            T.right = remove(key, T.right);
         }
         else if (cmp < 0) {
-            return remove(key, T.left);
+            T.left = remove(key, T.left);
         }
         else {
             if (T.left == null) {
                 return T.right;
             } else if (T.right == null) {
                 return T.left;
-            } else {
-                Node min = T.right.left;
-                T.key = min.key;
-                T.value = min.value;
-                T.right = remove(min.key,T.right);
-                return T;
             }
+            Node min = findMin(T.right);
+            T.key = min.key;
+            T.value = min.value;
+            T.right = remove(min.key,T.right);
         }
+         return T;
     }
 
     @Override
     public V remove(K key) {
-        Node removeNode = remove(key, root);
         boolean doesExist = containsKey(key);
-        if (doesExist) {
-            return removeNode.value;
+        if (!doesExist) {
+            return null;
         }
-        return null;
+        V value = get(key);
+        root = remove(key, root);
+        size -= 1;
+        return value;
     }
 
     @Override
     public Iterator<K> iterator() {
-        return null;
+        throw new UnsupportedOperationException();
     }
 }
