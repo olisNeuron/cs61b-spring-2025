@@ -1,6 +1,10 @@
 package ngrams;
 
+import edu.princeton.cs.algs4.In;
+
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 import static ngrams.TimeSeries.MAX_YEAR;
 import static ngrams.TimeSeries.MIN_YEAR;
@@ -18,12 +22,38 @@ import static ngrams.TimeSeries.MIN_YEAR;
 public class NGramMap {
 
     // TODO: Add any necessary static/instance variables.
-
+    Map<String, Map<Integer, Double>> wordFileMap;
+    Map<Integer, Integer> countsFileMap;
     /**
      * Constructs an NGramMap from WORDSFILENAME and COUNTSFILENAME.
      */
     public NGramMap(String wordsFilename, String countsFilename) {
         // TODO: Fill in this constructor. See the "NGramMap Tips" section of the spec for help.
+        wordFileMap = new HashMap<String, Map<Integer, Double>>();
+        countsFileMap = new HashMap<Integer, Integer>();
+        In inWordFile = new In(wordsFilename);
+        In inCountFile = new In(countsFilename);
+        int i = 0;
+
+        while (!inWordFile.isEmpty()) {
+            i += 1;
+            String nextLine = inWordFile.readLine();
+            String[] splitLine = nextLine.split("\t");
+            wordFileMap.put(
+                    splitLine[0],
+                    new TimeSeries(
+                            Integer.parseInt(splitLine[1]),
+                            Double.parseDouble(splitLine[2])
+                    )
+            );
+        }
+
+        while (!inCountFile.isEmpty()) {
+            i += 1;
+            String nextLine = inWordFile.readLine();
+            String[] splitLine = nextLine.split("\t");
+            countsFileMap.put(Integer.parseInt(splitLine[1]), Integer.parseInt(splitLine[2]));
+        }
     }
 
     /**

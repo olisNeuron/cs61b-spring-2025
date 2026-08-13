@@ -21,10 +21,10 @@ public class TimeSeries extends TreeMap<Integer, Double> {
     /**
      * Constructs a new empty TimeSeries.
      */
-    public TimeSeries() {
+    public TimeSeries(int year, double times) {
         super();
+        TimeSeries ts = new TimeSeries(year, times);
     }
-
     /**
      * Creates a copy of TS, but only between STARTYEAR and ENDYEAR,
      * inclusive of both end points.
@@ -92,6 +92,12 @@ public class TimeSeries extends TreeMap<Integer, Double> {
      * If TS has a year that is not in this TimeSeries, ignore it.
      */
     public TimeSeries dividedBy(TimeSeries ts) {
+        for (int year : this.keySet()) {
+            if (!ts.containsKey(year)) {
+                throw new IllegalArgumentException();
+            }
+        }
+
         TimeSeries quotient = new TimeSeries();
         for (int year : ts.keySet()) {
             quotient.put(year, this.get(year) / ts.get(year));
