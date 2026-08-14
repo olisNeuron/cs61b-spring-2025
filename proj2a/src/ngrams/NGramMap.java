@@ -2,6 +2,7 @@ package ngrams;
 
 import edu.princeton.cs.algs4.In;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -39,25 +40,25 @@ public class NGramMap {
             i += 1;
             String nextLine = inWordFile.readLine();
             String[] splitLine = nextLine.split("\t");
-            wordFileMap.put(
-                    splitLine[0],
-                    new TimeSeries(
-                            Integer.parseInt(splitLine[1]),
-                            Double.parseDouble(splitLine[2])
-                    )
-            );
+            String word = splitLine[0];
+            int year = Integer.parseInt(splitLine[1]);
+            double value = Double.parseDouble(splitLine[2]);
+            if (!wordFileMap.containsKey(word)) {
+                wordFileMap.put(word, new TimeSeries());
+            }
+            wordFileMap.get(word).put(year, value);
         }
 
         while (!inCountFile.isEmpty()) {
             i += 1;
-            String nextLine = inWordFile.readLine();
+            String nextLine = inCountFile.readLine();
             String[] splitLine = nextLine.split("\t");
             countsFileMap.put(Integer.parseInt(splitLine[1]), Integer.parseInt(splitLine[2]));
         }
     }
 
     /**
-     * Provides the history of WORD between STARTYEAR and ENDYEAR, inclusive of both ends. The
+/     * Provides the history of WORD between STARTYEAR and ENDYEAR, inclusive of both ends. The
      * returned TimeSeries should be a copy, not a link to this NGramMap's TimeSeries. In other
      * words, changes made to the object returned by this function should not also affect the
      * NGramMap. This is also known as a "defensive copy". If the word is not in the data files,
@@ -65,7 +66,10 @@ public class NGramMap {
      */
     public TimeSeries countHistory(String word, int startYear, int endYear) {
         // TODO: Fill in this method.
-        return null;
+        if (wordFileMap.containsKey(word)) {
+
+        }
+        return new TimeSeries();
     }
 
     /**
@@ -76,6 +80,7 @@ public class NGramMap {
      */
     public TimeSeries countHistory(String word) {
         // TODO: Fill in this method.
+
         return null;
     }
 

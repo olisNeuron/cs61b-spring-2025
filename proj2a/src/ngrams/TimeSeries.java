@@ -21,6 +21,10 @@ public class TimeSeries extends TreeMap<Integer, Double> {
     /**
      * Constructs a new empty TimeSeries.
      */
+    public TimeSeries() {
+        super();
+    }
+
     public TimeSeries(int year, double times) {
         super();
         TimeSeries ts = new TimeSeries(year, times);
