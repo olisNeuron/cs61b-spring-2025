@@ -24,7 +24,7 @@ public class NGramMap {
 
     // TODO: Add any necessary static/instance variables.
     Map<String, TimeSeries> wordFileMap;
-    Map<Long, Long> countsFileMap;
+    Map<Integer, Long> countsFileMap;
     /**
      * Constructs an NGramMap from WORDSFILENAME and COUNTSFILENAME.
      */
@@ -32,7 +32,7 @@ public class NGramMap {
         // TODO: Fill in this constructor. See the "NGramMap Tips" section of the spec for help.
         // initialize constructor variable
         wordFileMap = new HashMap<String, TimeSeries>();
-        countsFileMap = new HashMap<Long, Long>();
+        countsFileMap = new HashMap<Integer, Long>();
         In inWordFile = new In(wordsFilename);
         In inCountFile = new In(countsFilename);
 
@@ -52,7 +52,7 @@ public class NGramMap {
         while (!inCountFile.isEmpty()) {
             String nextLine = inCountFile.readLine();
             String[] splitLine = nextLine.split(",");
-            countsFileMap.put(Long.parseLong(splitLine[1]), Long.parseLong(splitLine[2]));
+            countsFileMap.put(Integer.parseInt(splitLine[0]), Long.parseLong(splitLine[1]));
         }
     }
 
@@ -96,8 +96,13 @@ public class NGramMap {
      */
     public TimeSeries totalCountHistory() {
         // TODO: Fill in this method.
-
-        return null;
+        TimeSeries result = new TimeSeries();
+        for (Map.Entry<Integer, Long> entry : countsFileMap.entrySet()) {
+            int year = entry.getKey();
+            long counts = entry.getValue();
+            result.put(year, (double) counts);
+        }
+        return result;
     }
 
     /**
