@@ -109,8 +109,11 @@ public class NGramMap {
     public TimeSeries weightHistory(String word, int startYear, int endYear) {
         TimeSeries frequency = new TimeSeries();
         if (wordFileMap.containsKey(word)) {
-            for (int year = startYear; year < endYear+1; year+=1) {
-                frequency.put(year, wordFileMap.get(word).get(year)/countsFileMap.get(year));
+            TimeSeries wordData = wordFileMap.get(word);
+            for (int year : wordData.keySet()) {
+                if (year >= startYear && year <= endYear) {
+                    frequency.put(year, wordData.get(year) / countsFileMap.get(year));
+                }
             }
             return frequency;
         }
@@ -125,8 +128,9 @@ public class NGramMap {
     public TimeSeries weightHistory(String word) {
         TimeSeries frequency = new TimeSeries();
         if (wordFileMap.containsKey(word)) {
-            for (int year : wordFileMap.get(word).keySet()) {
-                frequency.put(year, wordFileMap.get(word).get(year)/countsFileMap.get(year));
+            TimeSeries wordData = wordFileMap.get(word);
+            for (int year : wordData.keySet()) {
+                frequency.put(year, wordData.get(year)/countsFileMap.get(year));
             }
             return frequency;
         }
