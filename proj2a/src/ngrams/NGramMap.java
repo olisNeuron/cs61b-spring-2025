@@ -23,14 +23,12 @@ import static ngrams.TimeSeries.MIN_YEAR;
  */
 public class NGramMap {
 
-    // TODO: Add any necessary static/instance variables.
     Map<String, TimeSeries> wordFileMap;
     Map<Integer, Long> countsFileMap;
     /**
      * Constructs an NGramMap from WORDSFILENAME and COUNTSFILENAME.
      */
     public NGramMap(String wordsFilename, String countsFilename) {
-        // TODO: Fill in this constructor. See the "NGramMap Tips" section of the spec for help.
         // initialize constructor variable
         wordFileMap = new HashMap<String, TimeSeries>();
         countsFileMap = new HashMap<Integer, Long>();
@@ -65,7 +63,6 @@ public class NGramMap {
      * returns an empty TimeSeries.
      */
     public TimeSeries countHistory(String word, int startYear, int endYear) {
-        // TODO: Fill in this method.
         if (wordFileMap.containsKey(word)) {
             TimeSeries originalData = wordFileMap.get(word);
             TimeSeries data = new TimeSeries();
@@ -84,7 +81,6 @@ public class NGramMap {
      * is not in the data files, returns an empty TimeSeries.
      */
     public TimeSeries countHistory(String word) {
-        // TODO: Fill in this method.
         if (wordFileMap.containsKey(word)) {
             TimeSeries originalData = wordFileMap.get(word);
             return originalData;
@@ -96,7 +92,6 @@ public class NGramMap {
      * Returns a defensive copy of the total number of words recorded per year in all volumes.
      */
     public TimeSeries totalCountHistory() {
-        // TODO: Fill in this method.
         TimeSeries result = new TimeSeries();
         for (Map.Entry<Integer, Long> entry : countsFileMap.entrySet()) {
             int year = entry.getKey();
@@ -112,7 +107,6 @@ public class NGramMap {
      * TimeSeries.
      */
     public TimeSeries weightHistory(String word, int startYear, int endYear) {
-        // TODO: Fill in this method.
         TimeSeries frequency = new TimeSeries();
         if (wordFileMap.containsKey(word)) {
             for (int year = startYear; year < endYear+1; year+=1) {
@@ -129,7 +123,6 @@ public class NGramMap {
      * TimeSeries.
      */
     public TimeSeries weightHistory(String word) {
-        // TODO: Fill in this method.
         TimeSeries frequency = new TimeSeries();
         if (wordFileMap.containsKey(word)) {
             for (int year : wordFileMap.get(word).keySet()) {
@@ -147,8 +140,19 @@ public class NGramMap {
      */
     public TimeSeries summedWeightHistory(Collection<String> words,
                                           int startYear, int endYear) {
-        // TODO: Fill in this method.
-        return null;
+        TimeSeries result = new TimeSeries();
+        for (String word : words) {
+            TimeSeries wordHistory = weightHistory(word, startYear, endYear);
+            for (int year : wordHistory.keySet()) {
+                double freq = wordHistory.get(year);
+                if (result.containsKey(year)) {
+                    result.put(year, result.get(year) + freq);
+                } else {
+                    result.put(year, freq);
+                }
+            }
+        }
+        return result;
     }
 
     /**
@@ -156,10 +160,18 @@ public class NGramMap {
      * exist in this time frame, ignore it rather than throwing an exception.
      */
     public TimeSeries summedWeightHistory(Collection<String> words) {
-        // TODO: Fill in this method.
-        return null;
+        TimeSeries result = new TimeSeries();
+        for (String word : words) {
+            TimeSeries wordHistory = weightHistory(word);
+            for (int year : wordHistory.keySet()) {
+                double freq = wordHistory.get(year);
+                if (result.containsKey(year)) {
+                    result.put(year, result.get(year) + freq);
+                } else {
+                    result.put(year, freq);
+                }
+            }
+        }
+        return result;
     }
-
-    // TODO: Add any private helper methods.
-    // TODO: Remove all TODO comments before submitting.
 }
