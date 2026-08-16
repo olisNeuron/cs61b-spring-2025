@@ -2,6 +2,7 @@ package ngrams;
 
 import edu.princeton.cs.algs4.In;
 
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -112,7 +113,14 @@ public class NGramMap {
      */
     public TimeSeries weightHistory(String word, int startYear, int endYear) {
         // TODO: Fill in this method.
-        return null;
+        TimeSeries frequency = new TimeSeries();
+        if (wordFileMap.containsKey(word)) {
+            for (int year = startYear; year < endYear+1; year+=1) {
+                frequency.put(year, wordFileMap.get(word).get(year)/countsFileMap.get(year));
+            }
+            return frequency;
+        }
+        return new TimeSeries();
     }
 
     /**
@@ -122,7 +130,14 @@ public class NGramMap {
      */
     public TimeSeries weightHistory(String word) {
         // TODO: Fill in this method.
-        return null;
+        TimeSeries frequency = new TimeSeries();
+        if (wordFileMap.containsKey(word)) {
+            for (int year : wordFileMap.get(word).keySet()) {
+                frequency.put(year, wordFileMap.get(word).get(year)/countsFileMap.get(year));
+            }
+            return frequency;
+        }
+        return new TimeSeries();
     }
 
     /**
