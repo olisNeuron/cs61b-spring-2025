@@ -2,8 +2,6 @@ package ngrams;
 
 import edu.princeton.cs.algs4.In;
 
-import java.sql.Time;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -56,7 +54,7 @@ public class NGramMap {
     }
 
     /**
-/     * Provides the history of WORD between STARTYEAR and ENDYEAR, inclusive of both ends. The
+     * Provides the history of WORD between STARTYEAR and ENDYEAR, inclusive of both ends. The
      * returned TimeSeries should be a copy, not a link to this NGramMap's TimeSeries. In other
      * words, changes made to the object returned by this function should not also affect the
      * NGramMap. This is also known as a "defensive copy". If the word is not in the data files,
@@ -67,7 +65,9 @@ public class NGramMap {
             TimeSeries originalData = wordFileMap.get(word);
             TimeSeries data = new TimeSeries();
             for (int i = startYear; i < endYear+1; i+=1) {
-                data.put(i, originalData.get(i));
+                if (originalData.containsKey(i)) {
+                    data.put(i, originalData.get(i));
+                }
             }
             return data;
         }
@@ -83,7 +83,7 @@ public class NGramMap {
     public TimeSeries countHistory(String word) {
         if (wordFileMap.containsKey(word)) {
             TimeSeries originalData = wordFileMap.get(word);
-            return originalData;
+            return new TimeSeries(originalData, MIN_YEAR, MAX_YEAR);
         }
         return new TimeSeries();
     }

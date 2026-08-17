@@ -1,7 +1,5 @@
 package ngrams;
 
-import org.antlr.v4.runtime.tree.Tree;
-
 import java.util.*;
 
 /**
@@ -24,20 +22,17 @@ public class TimeSeries extends TreeMap<Integer, Double> {
     public TimeSeries() {
         super();
     }
-
-    public TimeSeries(int year, double times) {
-        super();
-        TimeSeries ts = new TimeSeries(year, times);
-    }
     /**
      * Creates a copy of TS, but only between STARTYEAR and ENDYEAR,
      * inclusive of both end points.
      */
     public TimeSeries(TimeSeries ts, int startYear, int endYear) {
         super();
-        ts = new TimeSeries();
-        ts.put(startYear, 0.0);
-        ts.put(endYear, 0.0);
+        for (int year : ts.keySet()) {
+            if (year >= startYear && year <= endYear) {
+                this.put(year, ts.get(year));
+            }
+        }
     }
 
     /**
@@ -69,21 +64,18 @@ public class TimeSeries extends TreeMap<Integer, Double> {
      * should store the value from the TimeSeries that contains that year.
      */
     public TimeSeries plus(TimeSeries ts) {
-        if (ts.isEmpty() && this.isEmpty()) {
-            return new TimeSeries();
-        }
-        if (ts.isEmpty()) {return this;}
-        if (this.isEmpty()) {return ts;}
+        TimeSeries result = new TimeSeries();
+        result.putAll(this);
 
         for (int year : ts.keySet()) {
-            if (this.containsKey(year)) {
-                this.put(year, ts.get(year)+this.get(year));
+            if (result.containsKey(year)) {
+                result.put(year, ts.get(year)+this.get(year));
             } else {
-                this.put(year, ts.get(year));
+                result.put(year, ts.get(year));
             }
         }
 
-        return this;
+        return result;
     }
 
     /**
@@ -103,7 +95,7 @@ public class TimeSeries extends TreeMap<Integer, Double> {
         }
 
         TimeSeries quotient = new TimeSeries();
-        for (int year : ts.keySet()) {
+        for (int year : this.keySet()) {
             quotient.put(year, this.get(year) / ts.get(year));
         }
         return quotient;
